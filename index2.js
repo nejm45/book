@@ -6,15 +6,54 @@ var isEditMode = false;
 var indexToEdit = null;
 var indexTodelet = null;
 
-createForm();
-createTable();  
- initserv();
+//createForm();
+//createTable();  
+ //initserv();
+ 
+ const postRequest = function(a,b,c){
+	 return fetch("https://jsonplaceholder.typicode.com/users", {
+		method: "POST",
+		body: JSON.stringify({
+			
+			
+			name: a,
+   
+    username: b,
+    
+    email: c
+			
+	  	  
+		})
+	})
+	
+  .then(function (res) { return res.json(); })
+  .then(function(res) { console.log(res);  })
+ 
+ }
+ 
+ 
+ const getRequest = function(){
+	 return fetch("https://jsonplaceholder.typicode.com/users")
+  .then(function (res) { return res.json(); }) 
+  //.then(function(res) { console.log(res); initTable(res); })
+ }
+ 
+ 
+ 
+	 
  
  
 function initserv() {
+	
+	getRequest()
+	 .then(function(res) { console.log(res); initTable(res); })
+	//fetch("https://jsonplaceholder.typicode.com/users")
+  //.then(function (res) { return res.json(); }) 
+ // .then(function(res) { console.log(res); initTable(res); })
+	
   
-const request = new XMLHttpRequest();
-request.addEventListener("load", function() {
+/*  const request = new XMLHttpRequest();
+    request.addEventListener("load", function() {
 	const response = JSON.parse(request.response);
 	console.log("Name");
 	const arr1 = response.map(function(item, index){
@@ -25,8 +64,13 @@ request.addEventListener("load", function() {
 	initTable(arr1);
 	
 });
-request.open("GET", "https://jsonplaceholder.typicode.com/users");
-request.send();
+request.open("GET", "https://jsonplaceholder.typicode.com/posts");
+request.send();  
+ 
+ */
+ 
+ 
+
 
 }
 
@@ -139,7 +183,8 @@ function onFormSubmit(ev) {
     alert("Please fill in the blank");
   } else {
     if(isEditMode) {
-      //update(formData1);
+      update(formData1);
+	  initserv();
       //initTable();
     } else {
       storeInServ(formData1);
@@ -184,24 +229,84 @@ function resetForm() {
 
 function onEdit(index) {
   
-  //document.getElementById("name").value = data[index].nameD;
-  //document.getElementById("username").value = data[index].usernameD;
- // document.getElementById("email").value = data[index].emailD;
+  getRequest()
+  //fetch("https://jsonplaceholder.typicode.com/users")
+  //.then(function (res) { return res.json(); }) 
+  .then(function(res) { 
+  
+ 
+  document.getElementById("name").value = res[index].name;
+  document.getElementById("username").value = res[index].username;
+  document.getElementById("email").value = res[index].email;
   
   isEditMode = true;
   indexToEdit = index;
   
+  })
+  
+}
+
+
+
+function update(formData3) {
+	
+	fetch("https://jsonplaceholder.typicode.com/users", {
+		method: "PUT",
+		body: JSON.stringify({
+			
+			
+			name: formData3.nameD,
+   
+    username: formData3.usernameD,
+    
+    email: formData3.emailD
+			
+	  	  
+		})
+	})
+	
+  .then(function (res) { return res.json(); }) 
+  .then(function(res) { console.log(res);  })
+  
+  
+
 }
 
 
 
 
 
+
+
+
+
+
 function storeInServ(x) {
+	
+	postRequest(x.nameD, x.usernameD, x.emailD);
+	
+	/* fetch("https://jsonplaceholder.typicode.com/users", {
+		method: "POST",
+		body: JSON.stringify({
+			
+			
+			name: x.nameD,
+   
+    username: x.usernameD,
+    
+    email: x.emailD
+			
+	  	  
+   
+		})
+	})
+	
+  .then(function (res) { return res.json(); }) 
+  .then(function(res) { console.log(res);  })   */
   
 
-const request = new XMLHttpRequest();
-request.addEventListener("progress", function() {
+/*  const request = new XMLHttpRequest();
+    request.addEventListener("progress", function() {
 	const response = JSON.stringify(request.response);
 	console.log("Name");
 	//const arr1 = response.map(function(item, index){
@@ -217,10 +322,49 @@ request.addEventListener("progress", function() {
 request.open("POST", "https://jsonplaceholder.typicode.com/users");
 request.send();
 
-
-
+*/
 
 }
+
+
+
+function onDelete(index) {
+  if (confirm("Are you sure to delete this record ?")) {
+	  
+	  
+	  
+	  fetch("https://jsonplaceholder.typicode.com/users")
+  .then(function (res) { return res.json(); }) 
+  .then(function(res) { 
+       
+	   const data2 = res.filter(function(item, index2){
+		return  index2 != index;
+	
+	})
+  
+  })
+  
+   
+   const data = JSON.parse(localStorage.getItem("y") || "[]");
+	const data2 = data.filter(function(item, index2){
+		
+		return  index2 != index;
+	
+	})
+	
+    localStorage.clear();
+   
+   localStorage.setItem("y", JSON.stringify(data2));
+    initTable();
+	preventDefault();
+  }
+}
+
+
+
+createForm();
+createTable();  
+ initserv();
 
 
 
