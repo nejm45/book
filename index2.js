@@ -10,6 +10,26 @@ var indexTodelet = null;
 //createTable();  
  //initserv();
  
+ 
+ 
+ 
+ const deleteRequest = function(a){
+	 return fetch("https://jsonplaceholder.typicode.com/users" +a, {
+		method: "Delete",
+
+	})
+	
+  .then(function (res) { return res.json(); })
+  .then(function(res) { console.log(res);  })
+ 
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  const postRequest = function(a,b,c){
 	 return fetch("https://jsonplaceholder.typicode.com/users", {
 		method: "POST",
@@ -284,26 +304,7 @@ function update(formData3) {
 function storeInServ(x) {
 	
 	postRequest(x.nameD, x.usernameD, x.emailD);
-	
-	/* fetch("https://jsonplaceholder.typicode.com/users", {
-		method: "POST",
-		body: JSON.stringify({
-			
-			
-			name: x.nameD,
-   
-    username: x.usernameD,
-    
-    email: x.emailD
-			
-	  	  
-   
-		})
-	})
-	
-  .then(function (res) { return res.json(); }) 
-  .then(function(res) { console.log(res);  })   */
-  
+		
 
 /*  const request = new XMLHttpRequest();
     request.addEventListener("progress", function() {
@@ -331,32 +332,10 @@ request.send();
 function onDelete(index) {
   if (confirm("Are you sure to delete this record ?")) {
 	  
-	  
-	  
-	  fetch("https://jsonplaceholder.typicode.com/users")
-  .then(function (res) { return res.json(); }) 
-  .then(function(res) { 
-       
-	   const data2 = res.filter(function(item, index2){
-		return  index2 != index;
+	  deleteRequest(index);
+	  initserv();
 	
-	})
-  
-  })
-  
-   
-   const data = JSON.parse(localStorage.getItem("y") || "[]");
-	const data2 = data.filter(function(item, index2){
-		
-		return  index2 != index;
-	
-	})
-	
-    localStorage.clear();
-   
-   localStorage.setItem("y", JSON.stringify(data2));
-    initTable();
-	preventDefault();
+	//preventDefault();
   }
 }
 
