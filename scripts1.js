@@ -5,11 +5,11 @@ createForm();
 function createForm() {
 	const div1 = document.createElement("div");
 	loginDoss.appendChild(div1);
-	insertInputField("form", "", "","", "",  div1);
+	insertInputField("form", "", "","", "", "cc",  div1);
 	
 	const div2 = document.createElement("div");
 	div1.appendChild(div2);
-	insertInputField("title", "Login To Coding Market", "","", "",  div2);
+	insertInputField("title", "Login To Coding Market", "","", "", "cc",  div2);
 	
 	const form1 = document.getElementById("form1");
 	div1.appendChild(form1);
@@ -23,52 +23,52 @@ function createForm() {
 	
 	const div3 = document.createElement("div");
 	form1.appendChild(div3);
-	insertInputField("input_wrap", "", "","", "",  div3);
+	insertInputField("input_wrap", "", "","", "", "cc",  div3);
 	
 	const label1 = document.createElement("label");
 	div3.appendChild(label1);
-	insertInputField("", "Email or Username", "","", "",  label1);
+	insertInputField("", "Email or Username", "","", "", "cc",  label1);
 	
 	const div4 = document.createElement("div");
 	div4.id = "input_field";
 	div3.appendChild(div4);
-	insertInputField("input_field", "", "","", "",  div4);
+	insertInputField("input_field", "", "","", "", "cc",  div4);
 	
 	const input1 = document.createElement("input");
 	div4.appendChild(input1);
-	insertInputField("input1", "", "text","", "",  input1);
+	insertInputField("input1", "", "text","", "", "cc",  input1);
 	
 	
 	
 	
 	const div5 = document.createElement("div");
 	form1.appendChild(div5);
-	insertInputField("input_wrap", "", "","", "",  div5);
+	insertInputField("input_wrap", "", "","", "", "cc",  div5);
 	
 	const label2 = document.createElement("label");
 	div5.appendChild(label2);
-	insertInputField("", "Password", "","", "",  label2);
+	insertInputField("", "Password", "","", "", "cc",  label2);
 	
 	const div6 = document.createElement("div");
 	div5.appendChild(div6);
-	insertInputField("input_field", "", "","", "",  div6);
+	insertInputField("input_field", "", "","", "", "cc",  div6);
 	
 	const input2 = document.createElement("input");
 	div6.appendChild(input2);
-	insertInputField("input2", "", "password","", "",  input2);
+	insertInputField("input2", "", "password","", "", "cc",  input2);
 	
 	
 	const div7 = document.createElement("div");
 	form1.appendChild(div7);
-	insertInputField("input_wrap", "", "","", "",  div7);
+	insertInputField("input_wrap", "", "","", "", "cc",  div7);
 	
 	const span1 = document.createElement("span");
 	div7.appendChild(span1);
-	insertInputField("error_msg", "Incorrect username or password. Please try again", "","", "",  span1);
+	insertInputField("error_msg", "Incorrect username or password. Please try again", "","", "", "cc",  span1);
 	
 	const input3 = document.createElement("input");
 	div7.appendChild(input3);
-	insertInputField("btn disabled", "", "submit", "Login", "true",  input3);
+	insertInputField("btn disabled", "", "submit", "Login", "true", "cc",  input3);
 	
 	
 	
@@ -78,13 +78,14 @@ function createForm() {
 
 
 
-function insertInputField(idin, textin, typein, valuein, disabledin, field) {
+function insertInputField(idin, textin, typein, valuein, disabledin, classin, field) {
  
   field.id = idin;
   field.innerText = textin;
   field.type = typein;
   field.value = valuein;
   field.disabled = disabledin;
+   field.className = classin;
 }
 
 
