@@ -11,51 +11,43 @@ var indexTodelet = null;
  //initserv();
  
  
+ const url = "  ";
  
- 
- const deleteRequest = function(a){
-	 return fetch("https://jsonplaceholder.typicode.com/users" +a, {
-		method: "Delete",
-
-	})
-	
-  .then(function (res) { return res.json(); })
-  .then(function(res) { console.log(res);  })
- 
- }
- 
- 
- 
- 
- 
- 
- 
- const postRequest = function(a,b,c){
-	 return fetch("https://jsonplaceholder.typicode.com/users", {
-		method: "POST",
-		body: JSON.stringify({
-			
-			
-			name: a,
-   
-    username: b,
-    
-    email: c
-			
-	  	  
+ function deleteRequest(a){
+	 return fetch(url + "/users/" +a, {
+		method: "DELETE",
+		headers: { 'Content-type':'application/json' }
 		})
+		
+ 
+                               }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ function postRequest(user){
+	 return fetch(url + "/users", {
+		method: "POST",
+		headers: { 'Content-type':'application/json' },
+		body: JSON.stringify(user)
 	})
 	
-  .then(function (res) { return res.json(); })
-  .then(function(res) { console.log(res);  })
+  
  
  }
  
  
- const getRequest = function(){
-	 return fetch("https://jsonplaceholder.typicode.com/users")
-  .then(function (res) { return res.json(); }) 
-  //.then(function(res) { console.log(res); initTable(res); })
+ function getRequest(){
+	return fetch(url + "/users")  
+     .then(function (response) {return response.json()})
+	 //.then(function (json) { console.log(json) });
+	 
+	 
+	 
+
  }
  
  
@@ -66,29 +58,8 @@ var indexTodelet = null;
 function initserv() {
 	
 	getRequest()
-	 .then(function(res) { console.log(res); initTable(res); })
-	//fetch("https://jsonplaceholder.typicode.com/users")
-  //.then(function (res) { return res.json(); }) 
- // .then(function(res) { console.log(res); initTable(res); })
+	 .then(function(json) { console.log(json); initTable(json); })
 	
-  
-/*  const request = new XMLHttpRequest();
-    request.addEventListener("load", function() {
-	const response = JSON.parse(request.response);
-	console.log("Name");
-	const arr1 = response.map(function(item, index){
-		return item
-	});
-	
-	console.log(arr1);
-	initTable(arr1);
-	
-});
-request.open("GET", "https://jsonplaceholder.typicode.com/posts");
-request.send();  
- 
- */
- 
  
 
 
@@ -252,12 +223,12 @@ function onEdit(index) {
   getRequest()
   //fetch("https://jsonplaceholder.typicode.com/users")
   //.then(function (res) { return res.json(); }) 
-  .then(function(res) { 
+  .then(function(json) { 
   
  
-  document.getElementById("name").value = res[index].name;
-  document.getElementById("username").value = res[index].username;
-  document.getElementById("email").value = res[index].email;
+  document.getElementById("name").value = json[index].name;
+  document.getElementById("username").value = json[index].username;
+  document.getElementById("email").value = json[index].email;
   
   isEditMode = true;
   indexToEdit = index;
@@ -270,23 +241,13 @@ function onEdit(index) {
 
 function update(formData3) {
 	
-	fetch("https://jsonplaceholder.typicode.com/users", {
+	return fetch(url + "/users/" + id, {
 		method: "PUT",
-		body: JSON.stringify({
-			
-			
-			name: formData3.nameD,
-   
-    username: formData3.usernameD,
-    
-    email: formData3.emailD
-			
-	  	  
-		})
+		headers: { 'Content-type':'application/json' }
+		body: JSON.stringify(formData3)
 	})
 	
-  .then(function (res) { return res.json(); }) 
-  .then(function(res) { console.log(res);  })
+  
   
   
 
@@ -303,7 +264,7 @@ function update(formData3) {
 
 function storeInServ(x) {
 	
-	postRequest(x.nameD, x.usernameD, x.emailD);
+	postRequest(x);
 		
 
 /*  const request = new XMLHttpRequest();
