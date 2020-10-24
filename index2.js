@@ -11,22 +11,16 @@ var indexTodelet = null;
  //initserv();
  
  
- const url = "  ";
+ const url = "http://localhost:3000";
  
  function deleteRequest(a){
-	 return fetch(url + "/users/" +a, {
+	 return fetch(url + "/users" +a, {
 		method: "DELETE",
 		headers: { 'Content-type':'application/json' }
 		})
 		
  
                                }
- 
- 
- 
- 
- 
- 
  
  function postRequest(user){
 	 return fetch(url + "/users", {
@@ -140,11 +134,11 @@ function initTable(data) {
 	  const row = document.createElement("tr");
 	  
 	  const name1 = document.createElement("td");
-    name1.innerText = data[ind].name;
+    name1.innerText = data[ind].nameD;
     const username1 = document.createElement("td");
-    username1.innerText = data[ind].username;
+    username1.innerText = data[ind].usernameD;
     const email1 = document.createElement("td");
-    email1.innerText = data[ind].email;
+    email1.innerText = data[ind].emailD;
     
     const actions = document.createElement("td");
     
@@ -174,7 +168,7 @@ function onFormSubmit(ev) {
     alert("Please fill in the blank");
   } else {
     if(isEditMode) {
-      update(formData1);
+      update(formData1, indexToEdit);
 	  initserv();
       //initTable();
     } else {
@@ -226,9 +220,9 @@ function onEdit(index) {
   .then(function(json) { 
   
  
-  document.getElementById("name").value = json[index].name;
-  document.getElementById("username").value = json[index].username;
-  document.getElementById("email").value = json[index].email;
+  document.getElementById("name").value = json[index].nameD;
+  document.getElementById("username").value = json[index].usernameD;
+  document.getElementById("email").value = json[index].emailD;
   
   isEditMode = true;
   indexToEdit = index;
@@ -239,11 +233,11 @@ function onEdit(index) {
 
 
 
-function update(formData3) {
+function update(formData3, id) {
 	
 	return fetch(url + "/users/" + id, {
 		method: "PUT",
-		headers: { 'Content-type':'application/json' }
+		headers: { 'Content-type':'application/json' },
 		body: JSON.stringify(formData3)
 	})
 	
