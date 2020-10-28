@@ -5,17 +5,17 @@ var table = document.createElement("table");
 var isEditMode = false;
 var indexToEdit = null;
 var indexTodelet = null;
-var indexserv = null;
+var indexToEditserv = null;
 
 //createForm();
 //createTable();  
  //initserv();
  
  
- const url = "https://jsonplaceholder.typicode.com/users";
+ const url = "http://localhost:3000";
  
  function deleteRequest(a){
-	 return fetch(url  +a, {
+	 return fetch(url + "/users/" + a, {
 		method: "DELETE",
 		headers: { 'Content-type':'application/json' }
 		})
@@ -24,7 +24,7 @@ var indexserv = null;
                                }
  
  function postRequest(user){
-	 return fetch(url , {
+	 return fetch(url + "/users/", {
 		method: "POST",
 		headers: { 'Content-type':'application/json' },
 		body: JSON.stringify(user)
@@ -36,7 +36,7 @@ var indexserv = null;
  
  
  function getRequest(){
-	return fetch(url )  
+	return fetch(url + "/users/" )  
      .then(function (response) {return response.json()})
 	 //.then(function (json) { console.log(json) });
 	 
@@ -144,7 +144,7 @@ function initTable(data) {
     const actions = document.createElement("td");
     
     //actions.innerHTML = `<a onClick="onEdit(${ind})">Edit</a> <a onClick="onDelete(${ind})">Delete</a>`;
-   actions.innerHTML = `<a onClick="onEdit(${ind})">Edit</a> <a onClick="onDelete(${data[ind].id})">Delete</a>`;
+   actions.innerHTML = `<a onClick="onEdit(${ind})">Edit</a> <a onClick="onDelete(${ind})">Delete</a>`;
     row.appendChild(name1);
     row.appendChild(username1);
     row.appendChild(email1);
@@ -169,14 +169,15 @@ function onFormSubmit(ev) {
   } else {
     if(isEditMode) {
      // update(formData1, indexToEdit);
-	 update(formData1, indexserv);
-	  initserv();
+   //update(formData1, indexserv);
+   update(formData1);
+	  initserv(); initserv();
       //initTable();
     } else {
       storeInServ(formData1);
       //initTable();
 	  
-	  initserv();
+	  initserv(); initserv();
 	  
     }
       
@@ -192,7 +193,7 @@ function readFormData() {
   formData2["name"] = document.getElementById("name").value;
   formData2["username"] = document.getElementById("username").value;
   formData2["email"] = document.getElementById("email").value;
-  
+
 
   return formData2;
 }
@@ -208,6 +209,7 @@ function resetForm() {
   
   isEditMode = false;
   indexToEdit = null;
+  indexToEditserv = null;
   indexTodelet = null;
 }
 
@@ -224,23 +226,24 @@ function onEdit(index) {
   document.getElementById("name").value = json[index].name;
   document.getElementById("username").value = json[index].username;
   document.getElementById("email").value = json[index].email;
-  console.log(index);
   //console.log(index);
-  indexserv = json[index].id
-   console.log(indexserv);
+  //console.log(index);
+  //indexserv = json[index].id
+   //console.log(indexserv);
   isEditMode = true;
   indexToEdit = index;
-  
+  indexToEditserv = json[index].id;
   })
   
 }
 
 
 
-function update(formData3, id) {
-	
+function update(formData3) {
+
+  console.log(indexToEditserv);
 	//return fetch(url + "/users/" + id, {
-		return fetch(url +  id, {
+		return fetch(url + "/users/"+ indexToEditserv, {
 		method: "PUT",
 		headers: { 'Content-type':'application/json' },
 		body: JSON.stringify(formData3)
@@ -248,7 +251,7 @@ function update(formData3, id) {
 	
   
   
-  
+
 
 }
 
@@ -264,26 +267,6 @@ function update(formData3, id) {
 function storeInServ(x) {
 	
 	postRequest(x);
-		
-
-/*  const request = new XMLHttpRequest();
-    request.addEventListener("progress", function() {
-	const response = JSON.stringify(request.response);
-	console.log("Name");
-	//const arr1 = response.map(function(item, index){
-	//	return item
-	//});
-	
-	//response.push(x);
-	//response.post(x);
-	
-	
-	
-});
-request.open("POST", "https://jsonplaceholder.typicode.com/users");
-request.send();
-
-*/
 
 }
 
@@ -291,12 +274,15 @@ request.send();
 
 function onDelete(index) {
   if (confirm("Are you sure to delete this record ?")) {
-	  console.log(index);
-	  deleteRequest(index);
-	  initserv();
+    console.log(index);
+    
+    getRequest().then(function(json) {deleteRequest(json[index].id) })
+    initserv();
+    
 	
 	//preventDefault();
   }
+  initserv();initserv();
 }
 
 
